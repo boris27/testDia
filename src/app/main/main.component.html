@@ -1,3 +1,6 @@
+<div class="addButton">
+  <button (click)="revealForm($event)">Add new entry</button>
+</div>
 <table>
   <thead>
     <th>Date</th><th>State</th><th>Estimate</th><th>Title</th><th class="description">Desctiption</th><th>Priority</th>
@@ -14,3 +17,28 @@
      </tr>
   </tbody>
 </table>
+<div id="popUpWindow" (click)="hidePopUp($event)">
+  <div class="formWindow">
+    <section>
+      Title: <br>
+      <input type="text" placeholder="title" name="title">
+    </section>
+    <section class="description">
+      Desctiption: <br>
+      <textarea name="desctiption"></textarea>
+    </section>
+    <section>
+      Estimate: <br>
+      <input type="text" placeholder="Estimate" name="estimate">
+    </section>
+    <section>
+      Priority: <br>
+      <select name="priority">
+        <option value="0">Low</option>
+        <option value="10">Medium</option>
+        <option value="20">High</option>
+      </select>
+    </section>
+    <button (click)="add($event)">Submit</button>
+  </div>
+</div>
