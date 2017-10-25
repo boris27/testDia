@@ -58,6 +58,7 @@ export class MainComponent implements OnInit {
         return new Date(val.create_date).getTime() === new Date(event.target.parentElement.parentElement.querySelector('td').innerHTML).getTime();
       });
       this.allItems.splice(findedIndex, 1);
+      this.http.post('somePhpPage.php', this.allItems[findedIndex]).subscribe(data => console.log(data), err => console.log(err));
       this.setPage((findedIndex/10) + 1);
     }
   }
