@@ -8,15 +8,18 @@
     height: 7vh
     width: 10vw
     outline: none
+    font-size: 2vh
 
 table
   width: 100%
 
   *
-    padding: 10px
+    padding: 5px
+    font-size: 2.5vh
   th
     background-color: bisque
     width: 10%
+    text-align: center
   td
     border-bottom: 1px solid black
     text-align: center
@@ -34,6 +37,11 @@ table
     background-color: red
     width: 10vh
 
+.navPages
+  display: flex
+  justify-content: center
+  align-items: center
+
 #popUpWindow
   position: fixed
   top: 0
@@ -46,16 +54,26 @@ table
   align-items: center
 
   .formWindow
-    background-color: white
+    background-color: lightblue
     width: 75%
     height: 75%
     display: flex
     flex-direction: column
     justify-content: space-around
     align-items: center
+    text-align: center
+    font-size: 2vh
+
+    input, textarea
+      padding-left: 1vh
+      border: 1px #dddddd solid
+      border-radius: 1vh
+      box-shadow: 1px 1px grey
+      outline: none
+      color: #1d1c1c
+      font-size: 2vh
 
     .description
-      text-align: center
       textarea
         width: 40vw
         height: 20vh

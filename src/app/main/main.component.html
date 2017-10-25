@@ -6,26 +6,46 @@
     <th>Date</th><th>State</th><th>Estimate</th><th>Title</th><th class="description">Desctiption</th><th>Priority</th>
   </thead>
   <tbody>
-     <tr *ngFor="let elem of result">
+     <tr *ngFor="let elem of pagedItems">
        <td>{{elem.create_date}}</td>
-       <td>{{elem.state}}</td>
+       <td>{{(elem.state == 0 ? 'new': '') + (elem.state == 10 ? 'in work': '') + (elem.state == 20 ? 'closed' : '') + (elem.state == 30 ? 'abort' : '')}}</td>
        <td>{{elem.estimate}}</td>
        <td>{{elem.title}}</td>
        <td>{{elem.description}}</td>
-       <td>{{elem.priority}}</td>
+       <td>{{(elem.priority == 0 ? 'low': '') + (elem.priority == 10 ? 'medium': '') + (elem.priority == 20 ? 'High' : '')}}</td>
        <td><button (click)="remove($event)">X</button></td>
      </tr>
   </tbody>
 </table>
+<section class="navPages">
+  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setPage(1)">First</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+    </li>
+    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="setPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.currentPage + 1)">Next</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.totalPages)">Last</a>
+    </li>
+  </ul>
+</section>
 <div id="popUpWindow" (click)="hidePopUp($event)">
   <div class="formWindow">
+    <h1>Adding a new record</h1>
     <section>
       Title: <br>
       <input type="text" placeholder="title" name="title">
     </section>
     <section class="description">
-      Desctiption: <br>
-      <textarea name="desctiption"></textarea>
+      Description: <br>
+      <textarea name="description"></textarea>
     </section>
     <section>
       Estimate: <br>

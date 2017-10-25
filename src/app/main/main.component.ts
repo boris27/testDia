@@ -1,19 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import {Http} from '@angular/http';
 
+import { PagerService } from '../_services/index';
+
 @Component({
+  moduleId: module.id,
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.sass']
 })
 export class MainComponent implements OnInit {
-  result;
+  private allItems: any[];
+  pager: any = {};
+  pagedItems: any[];
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private  pagerService: PagerService) { }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+    this.pager = this.pagerService.getPager(this.allItems.length, page);
+    this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
 
   revealForm (event): void {
     event.target.parentElement.parentElement.querySelector('#popUpWindow').style.display = 'flex';
   }
+
   hidePopUp (event): void {
     if(event.target === document.querySelector('#popUpWindow')) {
       event.target.parentElement.querySelector('#popUpWindow').style.display = 'none';
@@ -31,22 +46,29 @@ export class MainComponent implements OnInit {
       description: event.target.parentElement.querySelector('textarea').value,
       priority: event.target.parentElement.querySelector('[name="priority"]').value
     };
-    this.result.unshift(tempObj);
+    this.allItems.unshift(tempObj);
+    this.setPage(1);
+    this.http.post('somePhpPage.php', tempObj).subscribe(data => console.log(data), err => console.log(err));
     event.target.parentElement.parentElement.style.display = 'none';
-;  }
-
+; }
 
   remove(event): void {
     if (confirm('Are you sure ?')) {
-      let findedIndex = this.result.findIndex((val, index, arr) => {
+      let findedIndex = this.allItems.findIndex((val, index, arr) => {
         return new Date(val.create_date).getTime() === new Date(event.target.parentElement.parentElement.querySelector('td').innerHTML).getTime();
       });
-      this.result.splice(findedIndex, 1);
+      this.allItems.splice(findedIndex, 1);
+      this.setPage((findedIndex/10) + 1);
     }
   }
   ngOnInit() {
     this.http.get('../assets/json/tasks.json')
-      .subscribe((data) => this.result = data.json(), (err) => console.log(err));
+      .subscribe((data) => {
+        this.allItems = data.json();
+        this.setPage(1);
+      }, (err) => console.log(err)
+      );
   }
+
 
 }
