@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <th>Date</th><th>State</th><th>Estimate</th><th>Title</th><th class="description">Desctiption</th><th>Priority</th>
+  </thead>
+  <tbody>
+     <tr *ngFor="let elem of result">
+       <td>{{elem.create_date}}</td>
+       <td>{{elem.state}}</td>
+       <td>{{elem.estimate}}</td>
+       <td>{{elem.title}}</td>
+       <td>{{elem.description}}</td>
+       <td>{{elem.priority}}</td>
+       <td><button (click)="remove($event)">X</button></td>
+     </tr>
+  </tbody>
+</table>
